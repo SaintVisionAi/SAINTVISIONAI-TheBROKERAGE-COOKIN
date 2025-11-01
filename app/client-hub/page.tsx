@@ -1,365 +1,283 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import { TrendingUp, Home, DollarSign, Cpu, ArrowRight, Phone, Clock, MapPin, Star } from 'lucide-react';
-import GHLContactForm from '../../components/client-hub/GHLContactForm';
+import {
+  DollarSign,
+  Home,
+  TrendingUp,
+  Cpu,
+  FileText,
+  Upload,
+  BarChart3,
+  ArrowRight,
+  Phone,
+  Clock,
+  MapPin,
+  Star,
+  CheckCircle
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
 export default function ClientHubPage() {
   const router = useRouter();
-  const [showForm, setShowForm] = useState(false);
-  const [selectedService, setSelectedService] = useState<'lending' | 'real-estate' | 'investments' | 'tech' | 'general'>('general');
 
   const services = [
     {
-      id: 'lending' as const,
+      id: 'lending',
       title: 'Lending Solutions',
-      description: 'Business loans, real estate financing, merchant cash advances, lines of credit',
+      description: 'Commercial & residential financing, business loans, lines of credit, and more',
       icon: DollarSign,
       color: '#10b981',
-      link: '/client-hub/lending'
+      link: '/client-hub/lending',
+      features: ['12 Funding Partners', '24-Hour Response', 'Commercial Specialists']
     },
     {
-      id: 'real-estate' as const,
-      title: 'Real Estate',
-      description: 'Buy, sell, finance residential and commercial properties with expert guidance',
+      id: 'real-estate',
+      title: 'Real Estate Services',
+      description: 'Buy, sell, and finance properties with expert guidance and comprehensive services',
       icon: Home,
       color: '#3b82f6',
-      link: '/client-hub/real-estate'
+      link: '/client-hub/real-estate',
+      features: ['Licensed Professionals', 'Full-Service Support', 'Investment Expertise']
     },
     {
-      id: 'investments' as const,
+      id: 'investments',
       title: 'Investment Opportunities',
-      description: '9-12% fixed return strategies, UPREIT & 721 exchanges, portfolio diversification',
+      description: '9-12% fixed returns, UPREIT & 721 exchanges, and diversified real estate portfolios',
       icon: TrendingUp,
       color: '#f59e0b',
-      link: '/client-hub/investments'
+      link: '/client-hub/investments',
+      features: ['9-12% Returns', 'Tax-Advantaged', 'Accredited Investors']
     },
     {
-      id: 'tech' as const,
+      id: 'tech',
       title: 'SaintVision Tech™',
-      description: 'AI-powered financial platform, market analytics, property valuation services',
+      description: 'AI-powered financial platform with patent-protected automation and analytics',
       icon: Cpu,
       color: '#8b5cf6',
-      link: '/client-hub/tech'
+      link: '/client-hub/tech',
+      features: ['Patent #10,290,222', 'AI-Powered', 'Real-Time Analytics']
     }
   ];
 
-  const handleServiceSelect = (serviceId: typeof selectedService) => {
-    setSelectedService(serviceId);
-    setShowForm(true);
-  };
-
-  const handleFormSuccess = () => {
-    // After form submission, redirect to service page
-    const service = services.find(s => s.id === selectedService);
-    if (service) {
-      setTimeout(() => {
-        router.push(service.link);
-      }, 2000);
+  const quickActions = [
+    {
+      id: 'apply',
+      title: 'Complete Lending Application',
+      description: 'Submit your full loan application with all required information',
+      icon: FileText,
+      color: '#10b981',
+      link: '/client-hub/lending/apply'
+    },
+    {
+      id: 'credit',
+      title: 'Check Your Credit Score',
+      description: 'Soft credit pull that won\'t affect your score',
+      icon: BarChart3,
+      color: '#3b82f6',
+      link: '/client-hub/credit-assessment'
+    },
+    {
+      id: 'upload',
+      title: 'Upload Documents',
+      description: 'Securely upload required documents to our file hub',
+      icon: Upload,
+      color: '#f59e0b',
+      link: '/client-hub/file-hub'
     }
-  };
+  ];
 
   return (
-    <div className="client-hub-page">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
-      <div className="hub-header">
-        <div className="header-content">
-          <h1 className="hub-title">Saint Vision Group LLC</h1>
-          <p className="hub-tagline">Your Partner in Financial Success</p>
+      <div className="border-b border-yellow-500/30 bg-slate-800/50 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="text-center">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent mb-3">
+              Saint Vision Group LLC
+            </h1>
+            <p className="text-xl text-yellow-100/70">Your Partner in Financial Success</p>
 
-          <div className="header-contact">
-            <div className="contact-item">
-              <Phone size={16} />
-              <span>(949) 820-2108</span>
-            </div>
-            <div className="contact-item">
-              <Clock size={16} />
-              <span>7:00 AM - 8:00 PM Daily</span>
-            </div>
-            <div className="contact-item">
-              <MapPin size={16} />
-              <span>Irvine, CA</span>
+            {/* Contact Info */}
+            <div className="flex flex-wrap justify-center gap-8 mt-6">
+              <div className="flex items-center gap-2 text-yellow-400">
+                <Phone size={18} />
+                <span className="font-semibold">(949) 820-2108</span>
+              </div>
+              <div className="flex items-center gap-2 text-yellow-400">
+                <Clock size={18} />
+                <span>7:00 AM - 8:00 PM Daily</span>
+              </div>
+              <div className="flex items-center gap-2 text-yellow-400">
+                <MapPin size={18} />
+                <span>Irvine, CA</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="hub-content">
-        {!showForm ? (
-          <>
-            {/* Welcome Section */}
-            <div className="welcome-section">
-              <h2 className="welcome-title">Welcome to Your Client Hub</h2>
-              <p className="welcome-text">
-                Select a service below to get started. We'll need some basic information to provide you with the best possible experience.
-              </p>
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        {/* Welcome Section */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Welcome to Your Client Hub
+          </h2>
+          <p className="text-lg text-slate-300 max-w-3xl mx-auto mb-8">
+            Access all our services in one place. Whether you need financing, real estate services, investment opportunities, or cutting-edge technology solutions, we're here to help you succeed.
+          </p>
 
-              <div className="trust-badges">
-                <div className="trust-badge">
-                  <Star size={20} fill="#d4af37" color="#d4af37" />
-                  <span>Patent #10,290,222</span>
-                </div>
-                <div className="trust-badge">
-                  <Star size={20} fill="#d4af37" color="#d4af37" />
-                  <span>9-12% Fixed Returns</span>
-                </div>
-                <div className="trust-badge">
-                  <Star size={20} fill="#d4af37" color="#d4af37" />
-                  <span>AI-Powered Platform</span>
-                </div>
-              </div>
+          {/* Trust Badges */}
+          <div className="flex flex-wrap justify-center gap-6">
+            <div className="flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 px-4 py-2 rounded-full">
+              <Star size={20} className="text-yellow-400" />
+              <span className="text-yellow-100 font-semibold">Patent #10,290,222</span>
             </div>
-
-            {/* Services Grid */}
-            <div className="services-grid">
-              {services.map((service) => (
-                <div
-                  key={service.id}
-                  className="service-card"
-                  onClick={() => handleServiceSelect(service.id)}
-                  style={{ borderColor: service.color }}
-                >
-                  <div className="service-icon" style={{ backgroundColor: `${service.color}20`, color: service.color }}>
-                    <service.icon size={32} />
-                  </div>
-                  <h3 className="service-title">{service.title}</h3>
-                  <p className="service-description">{service.description}</p>
-                  <div className="service-cta" style={{ color: service.color }}>
-                    <span>Get Started</span>
-                    <ArrowRight size={18} />
-                  </div>
-                </div>
-              ))}
+            <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-full">
+              <Star size={20} className="text-emerald-400" />
+              <span className="text-emerald-100 font-semibold">9-12% Fixed Returns</span>
             </div>
-          </>
-        ) : (
-          <div className="form-section">
-            <button
-              onClick={() => setShowForm(false)}
-              className="back-btn"
-            >
-              ← Back to Services
-            </button>
-
-            <GHLContactForm
-              service={selectedService}
-              title="Let's Get Started"
-              subtitle={`Tell us about your ${selectedService === 'general' ? 'needs' : selectedService.replace('-', ' ')} needs`}
-              tags={[selectedService, 'client-hub']}
-              onSuccess={handleFormSuccess}
-            />
+            <div className="flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 px-4 py-2 rounded-full">
+              <Star size={20} className="text-blue-400" />
+              <span className="text-blue-100 font-semibold">12 Funding Partners</span>
+            </div>
           </div>
-        )}
+        </div>
+
+        {/* Quick Actions */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-white text-center mb-8">
+            Quick Actions
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {quickActions.map((action) => (
+              <Card
+                key={action.id}
+                className="bg-slate-800/80 border-yellow-500/30 hover:border-yellow-500/60 backdrop-blur-xl cursor-pointer transition-all duration-300 hover:transform hover:-translate-y-2"
+                onClick={() => router.push(action.link)}
+              >
+                <CardContent className="p-6">
+                  <div
+                    className="w-14 h-14 rounded-lg flex items-center justify-center mb-4"
+                    style={{ backgroundColor: `${action.color}20`, color: action.color }}
+                  >
+                    <action.icon size={28} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-2">{action.title}</h3>
+                  <p className="text-slate-300 text-sm mb-4">{action.description}</p>
+                  <Button
+                    className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-semibold"
+                    onClick={() => router.push(action.link)}
+                  >
+                    Get Started
+                    <ArrowRight size={16} className="ml-2" />
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Services Grid */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-white text-center mb-8">
+            Our Services
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {services.map((service) => (
+              <Card
+                key={service.id}
+                className="bg-slate-800/80 border-yellow-500/30 hover:border-yellow-500/60 backdrop-blur-xl cursor-pointer transition-all duration-300 hover:transform hover:-translate-y-2"
+                onClick={() => router.push(service.link)}
+              >
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div
+                      className="w-14 h-14 rounded-lg flex items-center justify-center"
+                      style={{ backgroundColor: `${service.color}20`, color: service.color }}
+                    >
+                      <service.icon size={28} />
+                    </div>
+                  </div>
+                  <CardTitle className="text-white text-2xl mt-4">{service.title}</CardTitle>
+                  <CardDescription className="text-slate-300 text-base leading-relaxed">
+                    {service.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {service.features.map((feature, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 px-3 py-1 rounded-full text-xs text-yellow-100"
+                      >
+                        <CheckCircle size={14} />
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                  <Button
+                    className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-semibold"
+                    onClick={() => router.push(service.link)}
+                  >
+                    Explore {service.title}
+                    <ArrowRight size={16} className="ml-2" />
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <Card className="bg-gradient-to-r from-yellow-500/20 to-slate-800/80 border-yellow-500/50 backdrop-blur-xl">
+          <CardContent className="p-12 text-center">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Ready to Get Started?
+            </h2>
+            <p className="text-xl text-yellow-100/70 mb-8 max-w-3xl mx-auto">
+              Our team of experts is ready to help you achieve your financial goals. Contact us today to discuss your needs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-semibold text-lg px-8 shadow-lg shadow-yellow-500/30"
+                onClick={() => router.push('/client-hub/lending/apply')}
+              >
+                <FileText size={20} className="mr-2" />
+                Start Application
+              </Button>
+              <a href="tel:+19498202108">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-yellow-500/30 text-yellow-100 hover:bg-yellow-500/10 text-lg px-8"
+                >
+                  <Phone size={20} className="mr-2" />
+                  (949) 820-2108
+                </Button>
+              </a>
+            </div>
+            <p className="text-slate-400 text-sm mt-6">
+              Available 7:00 AM - 8:00 PM Daily • Licensed Professionals • Commercial Specialists
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Footer */}
-      <div className="hub-footer">
-        <p>© 2024 Saint Vision Group LLC | Patent #10,290,222 | Powered by SaintVision Tech™</p>
+      <div className="border-t border-yellow-500/20 bg-slate-800/30 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 py-8 text-center">
+          <p className="text-slate-400">
+            © 2024 Saint Vision Group LLC | Patent #10,290,222 | Powered by SaintVision Tech™
+          </p>
+          <p className="text-slate-500 text-sm mt-2">
+            17875 Von Karman Avenue Suite 150, Irvine, CA 92614
+          </p>
+        </div>
       </div>
-
-      <style jsx>{`
-        .client-hub-page {
-          min-height: 100vh;
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-          color: white;
-        }
-
-        .hub-header {
-          background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
-          border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-          padding: 32px 24px;
-        }
-
-        .header-content {
-          max-width: 1200px;
-          margin: 0 auto;
-          text-align: center;
-        }
-
-        .hub-title {
-          font-size: 42px;
-          font-weight: 800;
-          background: linear-gradient(135deg, #d4af37 0%, #f4c542 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          margin-bottom: 8px;
-        }
-
-        .hub-tagline {
-          font-size: 18px;
-          color: #999;
-          margin-bottom: 24px;
-        }
-
-        .header-contact {
-          display: flex;
-          justify-content: center;
-          gap: 32px;
-          flex-wrap: wrap;
-        }
-
-        .contact-item {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          color: #d4af37;
-          font-size: 14px;
-          font-weight: 600;
-        }
-
-        .hub-content {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 48px 24px;
-        }
-
-        .welcome-section {
-          text-align: center;
-          margin-bottom: 48px;
-        }
-
-        .welcome-title {
-          font-size: 36px;
-          font-weight: 700;
-          color: white;
-          margin-bottom: 16px;
-        }
-
-        .welcome-text {
-          font-size: 18px;
-          color: #999;
-          margin-bottom: 32px;
-          max-width: 700px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        .trust-badges {
-          display: flex;
-          justify-content: center;
-          gap: 24px;
-          flex-wrap: wrap;
-        }
-
-        .trust-badge {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          background: rgba(212, 175, 55, 0.1);
-          border: 1px solid rgba(212, 175, 55, 0.3);
-          padding: 8px 16px;
-          border-radius: 24px;
-          font-size: 14px;
-          font-weight: 600;
-          color: #d4af37;
-        }
-
-        .services-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 24px;
-          margin-bottom: 48px;
-        }
-
-        .service-card {
-          background: rgba(255, 255, 255, 0.03);
-          border: 2px solid rgba(212, 175, 55, 0.2);
-          border-radius: 16px;
-          padding: 32px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .service-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-          border-color: currentColor;
-        }
-
-        .service-icon {
-          width: 64px;
-          height: 64px;
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 16px;
-        }
-
-        .service-title {
-          font-size: 22px;
-          font-weight: 700;
-          color: white;
-          margin-bottom: 12px;
-        }
-
-        .service-description {
-          font-size: 15px;
-          color: #999;
-          line-height: 1.6;
-          margin-bottom: 20px;
-        }
-
-        .service-cta {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-weight: 600;
-          font-size: 16px;
-        }
-
-        .form-section {
-          max-width: 700px;
-          margin: 0 auto;
-        }
-
-        .back-btn {
-          background: none;
-          border: 1px solid rgba(212, 175, 55, 0.3);
-          color: #d4af37;
-          padding: 12px 24px;
-          border-radius: 8px;
-          cursor: pointer;
-          font-size: 14px;
-          font-weight: 600;
-          margin-bottom: 32px;
-          transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-          background: rgba(212, 175, 55, 0.1);
-          border-color: #d4af37;
-        }
-
-        .hub-footer {
-          background: rgba(0, 0, 0, 0.3);
-          border-top: 1px solid rgba(212, 175, 55, 0.2);
-          padding: 24px;
-          text-align: center;
-          color: #666;
-          font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-          .hub-title {
-            font-size: 32px;
-          }
-
-          .welcome-title {
-            font-size: 28px;
-          }
-
-          .services-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .header-contact {
-            gap: 16px;
-          }
-        }
-      `}</style>
     </div>
   );
 }
