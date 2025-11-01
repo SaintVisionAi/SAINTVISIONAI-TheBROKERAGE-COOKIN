@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { Mail, Phone, User, MessageSquare, Send, CheckCircle, Building2 } from 'lucide-react';
+import { useGHL } from '@/hooks/use-ghl';
 
 interface GHLContactFormProps {
   service: 'lending' | 'real-estate' | 'investments' | 'tech' | 'general';
@@ -25,59 +26,45 @@ export default function GHLContactForm({
     message: '',
     company: ''
   });
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const { createContact, isLoading, error: ghlError } = useGHL();
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
 
     try {
-      // Create contact in GHL
-      const response = await fetch('/api/integrations/gohighlevel', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'create_contact',
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          tags: [service, ...tags],
-          customFields: {
-            service_interest: service,
-            message: formData.message,
-            company: formData.company,
-            source: 'Client Hub'
-          }
-        })
+      // Create contact in GHL using our hook
+      await createContact({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        tags: [service, ...tags],
+        customFields: {
+          service_interest: service,
+          message: formData.message,
+          company: formData.company,
+          source: 'Client Hub'
+        }
       });
 
-      const data = await response.json();
+      setSuccess(true);
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        message: '',
+        company: ''
+      });
 
-      if (data.success) {
-        setSuccess(true);
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          message: '',
-          company: ''
-        });
-
-        if (onSuccess) {
-          setTimeout(() => onSuccess(), 2000);
-        }
-      } else {
-        setError(data.error || 'Failed to submit. Please try again.');
+      if (onSuccess) {
+        setTimeout(() => onSuccess(), 2000);
       }
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong. Please try again.');
     }
   };
 
@@ -117,7 +104,7 @@ export default function GHLContactForm({
               onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               placeholder="John"
               required
-              disabled={loading}
+              disabled={isLoading}
             />
           </div>
 
@@ -133,7 +120,7 @@ export default function GHLContactForm({
               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               placeholder="Doe"
               required
-              disabled={loading}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -150,7 +137,7 @@ export default function GHLContactForm({
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             placeholder="john@example.com"
             required
-            disabled={loading}
+            disabled={isLoading}
           />
         </div>
 
@@ -166,7 +153,7 @@ export default function GHLContactForm({
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             placeholder="(949) 820-2108"
             required
-            disabled={loading}
+            disabled={isLoading}
           />
         </div>
 
@@ -182,7 +169,7 @@ export default function GHLContactForm({
               value={formData.company}
               onChange={(e) => setFormData({ ...formData, company: e.target.value })}
               placeholder="Your company name"
-              disabled={loading}
+              disabled={isLoading}
             />
           </div>
         )}
@@ -199,16 +186,16 @@ export default function GHLContactForm({
             placeholder="Tell us about your needs..."
             rows={4}
             required
-            disabled={loading}
+            disabled={isLoading}
           />
         </div>
 
         <button
           type="submit"
           className="form-submit-btn"
-          disabled={loading}
+          disabled={isLoading}
         >
-          {loading ? (
+          {isLoading ? (
             <>
               <div className="spinner" />
               <span>Submitting...</span>

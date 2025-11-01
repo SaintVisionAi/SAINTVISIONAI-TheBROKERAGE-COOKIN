@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Sidebar from '../components/Sidebar';
-import ChatWindowEnhanced from '../components/ChatWindowEnhanced';
+import ChatWindowStreaming from '../components/ChatWindowStreaming';
 import Playground from '../components/Playground';
 import WalkieTalkie from '../components/WalkieTalkie';
 import SupermanSal from '../components/SupermanSal';
@@ -77,7 +77,7 @@ export default function Page() {
         currentChatId={currentChatId}
         currentView={currentView}
       />
-      {currentView === 'chat' && <ChatWindowEnhanced chatId={currentChatId} />}
+      {currentView === 'chat' && <ChatWindowStreaming chatId={currentChatId} />}
       {currentView === 'playground' && <Playground />}
       {currentView === 'walkie' && <WalkieTalkie />}
       {currentView === 'superman' && <SupermanSal />}
