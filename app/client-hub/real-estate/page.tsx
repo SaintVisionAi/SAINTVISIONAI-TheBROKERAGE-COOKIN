@@ -1,272 +1,312 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { Home, Key, TrendingUp, CheckCircle, ArrowLeft, Building2, Search, FileText } from 'lucide-react';
-import GHLContactForm from '../../../components/client-hub/GHLContactForm';
+import { useRouter } from 'next/navigation';
+import {
+  ArrowLeft,
+  Home,
+  Building2,
+  Key,
+  TrendingUp,
+  Search,
+  FileText,
+  DollarSign,
+  CheckCircle,
+  ArrowRight,
+  Award
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 export default function RealEstatePage() {
+  const router = useRouter();
+
   const services = [
     {
-      title: 'Residential Sales',
-      description: 'Buy or sell your home with expert guidance and market insights',
+      id: 'residential-buy',
+      title: 'Residential Purchase',
+      description: 'Find and finance your dream home with expert guidance',
       icon: Home,
-      features: ['Market analysis', 'Negotiation', 'Full-service support']
+      color: '#ec4899',
+      features: ['Primary Residences', 'Investment Properties', 'Second Homes', 'MLS & Off-Market Access']
     },
     {
-      title: 'Commercial Properties',
-      description: 'Office, retail, industrial, and mixed-use commercial real estate',
+      id: 'residential-sell',
+      title: 'Residential Sales',
+      description: 'Sell your property for top dollar with strategic marketing',
+      icon: Key,
+      color: '#f59e0b',
+      features: ['Market Analysis', 'Professional Marketing', 'Negotiation', 'Fast Close']
+    },
+    {
+      id: 'commercial',
+      title: 'Commercial Real Estate',
+      description: 'Multi-family, retail, office, and industrial properties',
       icon: Building2,
-      features: ['Investment analysis', 'Due diligence', 'Portfolio growth']
+      color: '#3b82f6',
+      features: ['Investment Analysis', 'Portfolio Growth', 'Value-Add Opportunities', 'Large Transactions']
     },
     {
+      id: 'financing',
+      title: 'Real Estate Financing',
+      description: 'Competitive rates and fast approvals for all property types',
+      icon: DollarSign,
+      color: '#10b981',
+      features: ['Residential Loans', 'Commercial Loans', 'Fix & Flip', 'Bridge Loans']
+    },
+    {
+      id: 'investment',
+      title: 'Real Estate Investing',
+      description: 'Build wealth through strategic real estate investments',
+      icon: TrendingUp,
+      color: '#8b5cf6',
+      features: ['Fix & Flip', 'BRRRR Strategy', 'Buy & Hold', 'Syndications']
+    },
+    {
+      id: 'property-search',
       title: 'Property Search',
       description: 'Find your perfect property with our extensive network',
       icon: Search,
-      features: ['MLS access', 'Off-market deals', 'Custom searches']
-    },
-    {
-      title: 'Financing Solutions',
-      description: 'Competitive rates and fast approvals for all property types',
-      icon: FileText,
-      features: ['Multiple lenders', 'Best rates', 'Quick closings']
+      color: '#06b6d4',
+      features: ['MLS Access', 'Off-Market Deals', 'Custom Searches', 'Market Intelligence']
     }
   ];
 
-  return (
-    <div className="service-page real-estate-page">
-      <div className="service-header">
-        <Link href="/client-hub" className="back-link">
-          <ArrowLeft size={20} />
-          <span>Back to Client Hub</span>
-        </Link>
+  const benefits = [
+    'Licensed real estate professionals',
+    'Access to multiple financing options',
+    'Commercial and residential expertise',
+    'Market analytics and valuations',
+    'Investment property analysis',
+    'Full-service transaction support'
+  ];
 
-        <div className="header-content">
-          <div className="header-icon">
-            <Home size={48} />
-          </div>
-          <h1 className="page-title">Real Estate Services</h1>
-          <p className="page-subtitle">Buy, sell, and finance properties with confidence</p>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Header */}
+      <div className="border-b border-blue-500/30 bg-slate-800/50 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <Link href="/client-hub">
+            <Button
+              variant="outline"
+              className="border-blue-500/30 text-blue-100 hover:bg-blue-500/10"
+            >
+              <ArrowLeft size={20} className="mr-2" />
+              Back to Client Hub
+            </Button>
+          </Link>
         </div>
       </div>
 
-      <div className="service-content">
-        <section className="products-section">
-          <h2 className="section-title">Our Real Estate Services</h2>
-          <div className="products-grid">
-            {services.map((service, index) => (
-              <div key={index} className="product-card">
-                <div className="product-icon">
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-6 py-16 text-center">
+        <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl mb-8 shadow-lg shadow-blue-500/30">
+          <Home className="w-12 h-12 text-white" />
+        </div>
+        <h1 className="text-6xl font-bold text-white mb-6">
+          Real Estate Services
+        </h1>
+        <p className="text-2xl text-blue-100/70 max-w-4xl mx-auto mb-8">
+          Whether you're buying, selling, or investing in real estate, we provide comprehensive services and financing solutions to help you achieve your goals.
+        </p>
+
+        {/* Trust Badges */}
+        <div className="flex flex-wrap justify-center gap-6 mb-12">
+          <Card className="bg-emerald-500/10 border-emerald-500/50 backdrop-blur-xl">
+            <CardContent className="px-6 py-3">
+              <div className="flex items-center gap-2 text-emerald-300">
+                <CheckCircle className="w-5 h-5" />
+                <span className="font-semibold">Licensed Professionals</span>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-blue-500/10 border-blue-500/50 backdrop-blur-xl">
+            <CardContent className="px-6 py-3">
+              <div className="flex items-center gap-2 text-blue-300">
+                <Award className="w-5 h-5" />
+                <span className="font-semibold">Commercial Specialists</span>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-yellow-500/10 border-yellow-500/50 backdrop-blur-xl">
+            <CardContent className="px-6 py-3">
+              <div className="flex items-center gap-2 text-yellow-300">
+                <TrendingUp className="w-5 h-5" />
+                <span className="font-semibold">Investment Expertise</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Services Grid */}
+      <div className="max-w-7xl mx-auto px-6 pb-16">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Our Real Estate Services
+          </h2>
+          <p className="text-lg text-blue-100/70">
+            Full-service real estate solutions for all your needs
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {services.map((service) => (
+            <Card
+              key={service.id}
+              className="bg-slate-800/80 border-blue-500/30 hover:border-blue-500/60 backdrop-blur-xl transition-all duration-300 hover:transform hover:-translate-y-2"
+            >
+              <CardHeader>
+                <div
+                  className="w-14 h-14 rounded-lg flex items-center justify-center mb-4"
+                  style={{ backgroundColor: `${service.color}20`, color: service.color }}
+                >
                   <service.icon size={28} />
                 </div>
-                <h3 className="product-title">{service.title}</h3>
-                <p className="product-description">{service.description}</p>
-                <ul className="product-features">
-                  {service.features.map((feature, i) => (
-                    <li key={i}>
-                      <CheckCircle size={16} />
+                <CardTitle className="text-white text-xl">
+                  {service.title}
+                </CardTitle>
+                <CardDescription className="text-slate-300 text-sm leading-relaxed">
+                  {service.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {service.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-center gap-2 text-slate-300 text-sm">
+                      <CheckCircle size={16} className="text-emerald-400 flex-shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
-              </div>
-            ))}
-          </div>
-        </section>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-        <section className="application-section">
-          <div className="application-header">
-            <Key size={32} />
-            <div>
-              <h2>Start Your Real Estate Journey</h2>
-              <p>Whether buying, selling, or financing - we're here to help</p>
+        {/* Why Choose Us Section */}
+        <Card className="bg-slate-800/80 border-blue-500/50 backdrop-blur-xl mb-16">
+          <CardHeader>
+            <CardTitle className="text-blue-100 text-3xl text-center">
+              Why Choose Saint Vision Group?
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {benefits.map((benefit, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-3 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg"
+                >
+                  <CheckCircle size={20} className="text-blue-400 flex-shrink-0" />
+                  <span className="text-blue-100">{benefit}</span>
+                </div>
+              ))}
             </div>
-          </div>
+          </CardContent>
+        </Card>
 
-          <GHLContactForm
-            service="real-estate"
-            title="Tell Us About Your Property Needs"
-            subtitle="Our real estate experts will contact you within 24 hours"
-            tags={['real-estate', 'property']}
-          />
-        </section>
+        {/* Financing Options */}
+        <Card className="bg-gradient-to-r from-blue-500/20 to-slate-800/80 border-blue-500/50 backdrop-blur-xl mb-16">
+          <CardContent className="p-12">
+            <div className="text-center mb-8">
+              <h3 className="text-3xl font-bold text-white mb-4">
+                Need Financing?
+              </h3>
+              <p className="text-lg text-blue-100/70 max-w-2xl mx-auto">
+                We offer competitive financing for all types of real estate transactions, from residential purchases to large commercial deals.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="bg-slate-900/50 border-blue-500/30">
+                <CardContent className="p-6">
+                  <h4 className="text-xl font-semibold text-white mb-3">Residential Financing</h4>
+                  <ul className="space-y-2 text-slate-300">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
+                      <span>Primary residence mortgages</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
+                      <span>Investment property loans</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
+                      <span>Fix & flip financing (8.99%+)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
+                      <span>Refinancing options</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-900/50 border-blue-500/30">
+                <CardContent className="p-6">
+                  <h4 className="text-xl font-semibold text-white mb-3">Commercial Financing</h4>
+                  <ul className="space-y-2 text-slate-300">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
+                      <span>Multi-family properties</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
+                      <span>Office and retail spaces</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
+                      <span>Industrial properties</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
+                      <span>Mixed-use developments</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      <style jsx>{`
-        .service-page {
-          min-height: 100vh;
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-          color: white;
-        }
-
-        .service-header {
-          background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
-          border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-          padding: 24px;
-        }
-
-        .back-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          color: #3b82f6;
-          font-weight: 600;
-          margin-bottom: 24px;
-          transition: all 0.3s ease;
-        }
-
-        .back-link:hover {
-          gap: 12px;
-        }
-
-        .header-content {
-          max-width: 1200px;
-          margin: 0 auto;
-          text-align: center;
-        }
-
-        .header-icon {
-          width: 96px;
-          height: 96px;
-          background: rgba(59, 130, 246, 0.2);
-          border: 2px solid #3b82f6;
-          border-radius: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 24px;
-          color: #3b82f6;
-        }
-
-        .page-title {
-          font-size: 48px;
-          font-weight: 800;
-          color: white;
-          margin-bottom: 12px;
-        }
-
-        .page-subtitle {
-          font-size: 20px;
-          color: #999;
-        }
-
-        .service-content {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 48px 24px;
-        }
-
-        .section-title {
-          font-size: 32px;
-          font-weight: 700;
-          color: white;
-          text-align: center;
-          margin-bottom: 40px;
-        }
-
-        .products-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 24px;
-          margin-bottom: 64px;
-        }
-
-        .product-card {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(59, 130, 246, 0.2);
-          border-radius: 16px;
-          padding: 32px;
-          transition: all 0.3s ease;
-        }
-
-        .product-card:hover {
-          transform: translateY(-4px);
-          border-color: #3b82f6;
-          box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
-        }
-
-        .product-icon {
-          width: 56px;
-          height: 56px;
-          background: rgba(59, 130, 246, 0.2);
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #3b82f6;
-          margin-bottom: 16px;
-        }
-
-        .product-title {
-          font-size: 22px;
-          font-weight: 700;
-          color: white;
-          margin-bottom: 8px;
-        }
-
-        .product-description {
-          font-size: 15px;
-          color: #999;
-          margin-bottom: 16px;
-          line-height: 1.5;
-        }
-
-        .product-features {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-
-        .product-features li {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          color: #3b82f6;
-          font-size: 14px;
-          margin-bottom: 8px;
-        }
-
-        .application-section {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(59, 130, 246, 0.2);
-          border-radius: 24px;
-          padding: 48px;
-        }
-
-        .application-header {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 16px;
-          margin-bottom: 32px;
-          color: #3b82f6;
-        }
-
-        .application-header h2 {
-          font-size: 32px;
-          font-weight: 700;
-          color: white;
-          margin-bottom: 4px;
-        }
-
-        .application-header p {
-          font-size: 16px;
-          color: #999;
-        }
-
-        @media (max-width: 768px) {
-          .page-title {
-            font-size: 36px;
-          }
-
-          .products-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .application-section {
-            padding: 32px 24px;
-          }
-        }
-      `}</style>
+      {/* CTA Section */}
+      <div className="max-w-7xl mx-auto px-6 pb-16">
+        <Card className="bg-gradient-to-r from-blue-500/20 to-slate-800/80 border-blue-500/50 backdrop-blur-xl">
+          <CardContent className="p-12 text-center">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Ready to Get Started?
+            </h2>
+            <p className="text-xl text-blue-100/70 mb-8 max-w-3xl mx-auto">
+              Whether you're buying, selling, or investing, our team is here to help you succeed.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/client-hub/lending/apply">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold text-lg px-8 shadow-lg shadow-blue-500/30"
+                >
+                  <FileText size={20} className="mr-2" />
+                  Start Application
+                </Button>
+              </Link>
+              <a href="tel:+19498202108">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-blue-500/30 text-blue-100 hover:bg-blue-500/10 text-lg px-8"
+                >
+                  📞 (949) 820-2108
+                </Button>
+              </a>
+            </div>
+            <p className="text-slate-400 text-sm mt-6">
+              Available 7:00 AM - 8:00 PM Daily • Licensed Real Estate Professionals
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

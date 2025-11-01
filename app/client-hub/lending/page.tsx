@@ -1,337 +1,316 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { DollarSign, TrendingUp, Clock, CheckCircle, ArrowLeft, Building, CreditCard, Home as HomeIcon, Briefcase } from 'lucide-react';
-import GHLContactForm from '../../../components/client-hub/GHLContactForm';
+import { useRouter } from 'next/navigation';
+import {
+  ArrowLeft,
+  DollarSign,
+  Home,
+  Building2,
+  Wrench,
+  TrendingUp,
+  FileText,
+  CreditCard,
+  Package,
+  Briefcase,
+  ArrowRight,
+  CheckCircle,
+  Clock,
+  Award
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
-export default function LendingPage() {
-  const lendingProducts = [
+export default function LendingServicesPage() {
+  const router = useRouter();
+
+  const loanTypes = [
     {
-      title: 'Business Loans',
-      description: 'Working capital and growth financing for businesses of all sizes',
-      icon: Briefcase,
-      features: ['Up to $5M', 'Fast approval', 'Flexible terms']
+      id: 'commercial',
+      title: 'Commercial Real Estate',
+      description: 'Multi-family, retail, office, and industrial property financing',
+      icon: Building2,
+      color: '#3b82f6',
+      range: '$100K - $50M+',
+      rate: 'Starting 6.5%',
+      term: '5-30 years',
+      highlights: ['Our Specialty', 'Fast Approval', 'Large Transactions']
     },
     {
-      title: 'Real Estate Financing',
-      description: 'Residential, commercial, and mixed-use property loans',
-      icon: HomeIcon,
-      features: ['Competitive rates', 'Quick closings', 'Expert guidance']
+      id: 'fix-flip',
+      title: 'Fix & Flip Loans',
+      description: 'Short-term financing for property renovation and resale',
+      icon: Home,
+      color: '#10b981',
+      range: '$50K - $5M',
+      rate: 'Starting 8.99%',
+      term: '6-24 months',
+      highlights: ['650+ FICO', '90% LTV', 'Quick Funding']
     },
     {
-      title: 'Merchant Cash Advances',
-      description: 'Fast access to capital based on future sales',
-      icon: CreditCard,
-      features: ['24-48hr funding', 'No collateral', 'Bad credit OK']
-    },
-    {
-      title: 'Lines of Credit',
-      description: 'Revolving credit lines for ongoing business needs',
-      icon: TrendingUp,
-      features: ['Draw as needed', 'Low rates', 'Easy access']
-    },
-    {
+      id: 'bridge',
       title: 'Bridge Loans',
-      description: 'Short-term financing for time-sensitive opportunities',
-      icon: Building,
-      features: ['Fast close', 'Flexible terms', 'Up to 80% LTV']
+      description: 'Fast transitional financing for time-sensitive opportunities',
+      icon: TrendingUp,
+      color: '#f59e0b',
+      range: '$75K - $15M',
+      rate: 'Starting 7.5%',
+      term: '6-36 months',
+      highlights: ['7-14 Days', 'Flexible Terms', 'No Prepayment Penalty']
     },
     {
+      id: 'construction',
       title: 'Construction Loans',
-      description: 'Financing for ground-up development and renovations',
-      icon: Building,
-      features: ['Draw schedules', 'Competitive rates', 'Expert support']
+      description: 'Ground-up construction and major renovation financing',
+      icon: Wrench,
+      color: '#8b5cf6',
+      range: '$100K - $20M',
+      rate: 'Starting 7.99%',
+      term: '12-36 months',
+      highlights: ['Draw Schedule', 'Experienced Builders', 'Interest Reserve']
+    },
+    {
+      id: 'residential',
+      title: 'Residential Purchase',
+      description: 'Primary residence and investment property mortgages',
+      icon: Home,
+      color: '#ec4899',
+      range: '$50K - $10M',
+      rate: 'Starting 6.25%',
+      term: '15-30 years',
+      highlights: ['Conventional', 'Jumbo', 'Investment Properties']
+    },
+    {
+      id: 'mca',
+      title: 'Merchant Cash Advance',
+      description: 'Fast working capital based on credit card sales',
+      icon: CreditCard,
+      color: '#14b8a6',
+      range: '$5K - $750K',
+      rate: 'Factor Rate',
+      term: '3-18 months',
+      highlights: ['24-48 Hours', 'No Collateral', 'Flexible Repayment']
+    },
+    {
+      id: 'term-loan',
+      title: 'Business Term Loans',
+      description: 'Fixed-rate financing for business growth and expansion',
+      icon: Briefcase,
+      color: '#f97316',
+      range: '$5K - $5M',
+      rate: 'Starting 5.5%',
+      term: '1-10 years',
+      highlights: ['Fixed Payments', 'Growth Capital', 'Multiple Uses']
+    },
+    {
+      id: 'equipment',
+      title: 'Equipment Financing',
+      description: 'Finance new and used equipment for any industry',
+      icon: Package,
+      color: '#06b6d4',
+      range: '$5K - $2M',
+      rate: 'Starting 4.99%',
+      term: '2-7 years',
+      highlights: ['100% Financing', 'Tax Benefits', '3-5 Day Approval']
+    },
+    {
+      id: 'sba',
+      title: 'SBA Loans',
+      description: 'Government-backed financing with favorable terms',
+      icon: Award,
+      color: '#6366f1',
+      range: '$25K - $5M',
+      rate: 'Starting 4.5%',
+      term: '10-25 years',
+      highlights: ['Lowest Rates', 'Long Terms', 'SBA 7(a) & 504']
+    },
+    {
+      id: 'working-capital',
+      title: 'Working Capital',
+      description: 'Short-term financing for operational expenses',
+      icon: DollarSign,
+      color: '#84cc16',
+      range: '$5K - $1M',
+      rate: 'Starting 6.5%',
+      term: '3-24 months',
+      highlights: ['Fast Funding', 'Flexible Use', 'Revenue Based']
     }
   ];
 
-  const benefits = [
-    'Fast approval process (24-72 hours)',
-    'Competitive interest rates',
-    'Flexible repayment terms',
-    'No prepayment penalties',
-    'Dedicated loan specialist',
-    'Expert financial guidance'
-  ];
-
   return (
-    <div className="service-page lending-page">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
-      <div className="service-header">
-        <Link href="/client-hub" className="back-link">
-          <ArrowLeft size={20} />
-          <span>Back to Client Hub</span>
-        </Link>
-
-        <div className="header-content">
-          <div className="header-icon">
-            <DollarSign size={48} />
-          </div>
-          <h1 className="page-title">Lending Solutions</h1>
-          <p className="page-subtitle">Fast, flexible financing for your business and real estate needs</p>
+      <div className="border-b border-yellow-500/30 bg-slate-800/50 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <Link href="/client-hub">
+            <Button
+              variant="outline"
+              className="border-yellow-500/30 text-yellow-100 hover:bg-yellow-500/10"
+            >
+              <ArrowLeft size={20} className="mr-2" />
+              Back to Client Hub
+            </Button>
+          </Link>
+          <Link href="/client-hub/lending/apply">
+            <Button className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-semibold shadow-lg shadow-yellow-500/30">
+              Apply Now
+              <ArrowRight size={20} className="ml-2" />
+            </Button>
+          </Link>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="service-content">
-        {/* Products Grid */}
-        <section className="products-section">
-          <h2 className="section-title">Our Lending Products</h2>
-          <div className="products-grid">
-            {lendingProducts.map((product, index) => (
-              <div key={index} className="product-card">
-                <div className="product-icon">
-                  <product.icon size={28} />
-                </div>
-                <h3 className="product-title">{product.title}</h3>
-                <p className="product-description">{product.description}</p>
-                <ul className="product-features">
-                  {product.features.map((feature, i) => (
-                    <li key={i}>
-                      <CheckCircle size={16} />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-6 py-16 text-center">
+        <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-3xl mb-8 shadow-lg shadow-yellow-500/30">
+          <DollarSign className="w-12 h-12 text-black" />
+        </div>
+        <h1 className="text-6xl font-bold text-white mb-6">
+          Lending Solutions
+        </h1>
+        <p className="text-2xl text-yellow-100/70 max-w-4xl mx-auto mb-8">
+          From commercial real estate to business financing, we connect you with the right funding partner for your specific needs. <span className="text-yellow-400 font-semibold">Commercial lending is our specialty.</span>
+        </p>
+
+        {/* Trust Badges */}
+        <div className="flex flex-wrap justify-center gap-6 mb-12">
+          <Card className="bg-emerald-500/10 border-emerald-500/50 backdrop-blur-xl">
+            <CardContent className="px-6 py-3">
+              <div className="flex items-center gap-2 text-emerald-300">
+                <CheckCircle className="w-5 h-5" />
+                <span className="font-semibold">12 Funding Partners</span>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Benefits Section */}
-        <section className="benefits-section">
-          <h2 className="section-title">Why Choose Saint Vision Group?</h2>
-          <div className="benefits-grid">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="benefit-item">
-                <CheckCircle size={20} className="benefit-icon" />
-                <span>{benefit}</span>
+            </CardContent>
+          </Card>
+          <Card className="bg-blue-500/10 border-blue-500/50 backdrop-blur-xl">
+            <CardContent className="px-6 py-3">
+              <div className="flex items-center gap-2 text-blue-300">
+                <Clock className="w-5 h-5" />
+                <span className="font-semibold">24-Hour Response</span>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Application Form */}
-        <section className="application-section">
-          <div className="application-header">
-            <Clock size={32} />
-            <div>
-              <h2>Apply Now</h2>
-              <p>Get a response within 24-72 hours</p>
-            </div>
-          </div>
-
-          <GHLContactForm
-            service="lending"
-            title="Start Your Lending Application"
-            subtitle="Tell us about your financing needs and we'll get back to you within 24 hours"
-            tags={['lending', 'loan-application']}
-          />
-        </section>
+            </CardContent>
+          </Card>
+          <Card className="bg-yellow-500/10 border-yellow-500/50 backdrop-blur-xl">
+            <CardContent className="px-6 py-3">
+              <div className="flex items-center gap-2 text-yellow-300">
+                <Award className="w-5 h-5" />
+                <span className="font-semibold">Commercial Specialists</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
-      <style jsx>{`
-        .service-page {
-          min-height: 100vh;
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-          color: white;
-        }
+      {/* Loan Types Grid */}
+      <div className="max-w-7xl mx-auto px-6 pb-16">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Choose Your Loan Type
+          </h2>
+          <p className="text-lg text-yellow-100/70">
+            Select the financing solution that matches your needs
+          </p>
+        </div>
 
-        .service-header {
-          background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
-          border-bottom: 1px solid rgba(16, 185, 129, 0.2);
-          padding: 24px;
-        }
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {loanTypes.map((loan) => (
+            <Card
+              key={loan.id}
+              className="bg-slate-800/80 border-yellow-500/30 hover:border-yellow-500/60 backdrop-blur-xl transition-all duration-300 hover:transform hover:-translate-y-2 cursor-pointer group"
+              onClick={() => router.push('/client-hub/lending/apply')}
+            >
+              <CardHeader>
+                <div
+                  className="w-14 h-14 rounded-lg flex items-center justify-center mb-4"
+                  style={{ backgroundColor: `${loan.color}20`, color: loan.color }}
+                >
+                  <loan.icon size={28} />
+                </div>
+                <CardTitle className="text-white text-xl group-hover:text-yellow-300 transition-colors">
+                  {loan.title}
+                </CardTitle>
+                <CardDescription className="text-slate-300 text-sm leading-relaxed">
+                  {loan.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 mb-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-400 text-sm">Amount:</span>
+                    <span className="text-white font-semibold">{loan.range}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-400 text-sm">Rate:</span>
+                    <span className="text-emerald-400 font-semibold">{loan.rate}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-400 text-sm">Term:</span>
+                    <span className="text-white font-semibold">{loan.term}</span>
+                  </div>
+                </div>
 
-        .back-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          color: #10b981;
-          font-weight: 600;
-          margin-bottom: 24px;
-          transition: all 0.3s ease;
-        }
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {loan.highlights.map((highlight, idx) => (
+                    <Badge
+                      key={idx}
+                      variant="outline"
+                      className="border-yellow-500/30 text-yellow-300 text-xs"
+                    >
+                      {highlight}
+                    </Badge>
+                  ))}
+                </div>
 
-        .back-link:hover {
-          gap: 12px;
-        }
+                <Button
+                  className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-semibold"
+                  onClick={() => router.push('/client-hub/lending/apply')}
+                >
+                  Learn More
+                  <ArrowRight size={16} className="ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
 
-        .header-content {
-          max-width: 1200px;
-          margin: 0 auto;
-          text-align: center;
-        }
-
-        .header-icon {
-          width: 96px;
-          height: 96px;
-          background: rgba(16, 185, 129, 0.2);
-          border: 2px solid #10b981;
-          border-radius: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 24px;
-          color: #10b981;
-        }
-
-        .page-title {
-          font-size: 48px;
-          font-weight: 800;
-          color: white;
-          margin-bottom: 12px;
-        }
-
-        .page-subtitle {
-          font-size: 20px;
-          color: #999;
-        }
-
-        .service-content {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 48px 24px;
-        }
-
-        .section-title {
-          font-size: 32px;
-          font-weight: 700;
-          color: white;
-          text-align: center;
-          margin-bottom: 40px;
-        }
-
-        .products-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 24px;
-          margin-bottom: 64px;
-        }
-
-        .product-card {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(16, 185, 129, 0.2);
-          border-radius: 16px;
-          padding: 32px;
-          transition: all 0.3s ease;
-        }
-
-        .product-card:hover {
-          transform: translateY(-4px);
-          border-color: #10b981;
-          box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
-        }
-
-        .product-icon {
-          width: 56px;
-          height: 56px;
-          background: rgba(16, 185, 129, 0.2);
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #10b981;
-          margin-bottom: 16px;
-        }
-
-        .product-title {
-          font-size: 22px;
-          font-weight: 700;
-          color: white;
-          margin-bottom: 8px;
-        }
-
-        .product-description {
-          font-size: 15px;
-          color: #999;
-          margin-bottom: 16px;
-          line-height: 1.5;
-        }
-
-        .product-features {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-
-        .product-features li {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          color: #10b981;
-          font-size: 14px;
-          margin-bottom: 8px;
-        }
-
-        .benefits-section {
-          margin-bottom: 64px;
-        }
-
-        .benefits-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 16px;
-        }
-
-        .benefit-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 16px;
-          background: rgba(16, 185, 129, 0.05);
-          border: 1px solid rgba(16, 185, 129, 0.2);
-          border-radius: 8px;
-          color: white;
-          font-size: 15px;
-        }
-
-        .benefit-icon {
-          color: #10b981;
-          flex-shrink: 0;
-        }
-
-        .application-section {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(16, 185, 129, 0.2);
-          border-radius: 24px;
-          padding: 48px;
-        }
-
-        .application-header {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 16px;
-          margin-bottom: 32px;
-          color: #10b981;
-        }
-
-        .application-header h2 {
-          font-size: 32px;
-          font-weight: 700;
-          color: white;
-          margin-bottom: 4px;
-        }
-
-        .application-header p {
-          font-size: 16px;
-          color: #999;
-        }
-
-        @media (max-width: 768px) {
-          .page-title {
-            font-size: 36px;
-          }
-
-          .products-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .application-section {
-            padding: 32px 24px;
-          }
-        }
-      `}</style>
+      {/* CTA Section */}
+      <div className="max-w-7xl mx-auto px-6 pb-16">
+        <Card className="bg-gradient-to-r from-yellow-500/20 to-slate-800/80 border-yellow-500/50 backdrop-blur-xl">
+          <CardContent className="p-12 text-center">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Ready to Get Started?
+            </h2>
+            <p className="text-xl text-yellow-100/70 mb-8 max-w-3xl mx-auto">
+              Complete our comprehensive application or speak with a funding specialist to discuss your financing needs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/client-hub/lending/apply">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-semibold text-lg px-8 shadow-lg shadow-yellow-500/30"
+                >
+                  <FileText size={20} className="mr-2" />
+                  Complete Application
+                </Button>
+              </Link>
+              <a href="tel:+19498202108">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-yellow-500/30 text-yellow-100 hover:bg-yellow-500/10 text-lg px-8"
+                >
+                  📞 (949) 820-2108
+                </Button>
+              </a>
+            </div>
+            <p className="text-slate-400 text-sm mt-6">
+              Available 7:00 AM - 8:00 PM Daily • Expert Funding Specialists Standing By
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
