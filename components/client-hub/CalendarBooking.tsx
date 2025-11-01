@@ -8,13 +8,15 @@ interface CalendarBookingProps {
   description?: string;
   showHeader?: boolean;
   height?: string;
+  showChatButton?: boolean;
 }
 
 export default function CalendarBooking({
   title = "Book Your Consultation",
   description = "Schedule a time that works best for you",
   showHeader = true,
-  height = "700px"
+  height = "900px",
+  showChatButton = true
 }: CalendarBookingProps) {
   useEffect(() => {
     // Load the GHL form embed script
@@ -24,13 +26,79 @@ export default function CalendarBooking({
     script.async = true;
     document.body.appendChild(script);
 
+    // Add chat button click handler
+    if (showChatButton) {
+      const handleChatClick = () => {
+        const existing = document.getElementById('saintsal-chat');
+        if (existing) {
+          existing.remove();
+          return;
+        }
+
+        const frame = document.createElement('iframe');
+        frame.id = 'saintsal-chat';
+        frame.src = 'https://saintvisionai.com/assistant?agent=saintsal';
+        frame.style.position = 'fixed';
+        frame.style.bottom = '90px';
+        frame.style.right = '28px';
+        frame.style.width = '380px';
+        frame.style.height = '520px';
+        frame.style.border = 'none';
+        frame.style.borderRadius = '18px';
+        frame.style.boxShadow = '0 8px 32px rgba(0,0,0,0.4)';
+        frame.style.zIndex = '99999';
+        document.body.appendChild(frame);
+      };
+
+      // Create chat button
+      const chatBtn = document.createElement('button');
+      chatBtn.id = 'saintsal-btn';
+      chatBtn.innerHTML = '⚡ Chat with SaintSal™';
+      chatBtn.style.cssText = `
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        background: #d4af37;
+        color: #000;
+        font-weight: 600;
+        border: none;
+        border-radius: 12px;
+        padding: 14px 22px;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        z-index: 99998;
+      `;
+
+      chatBtn.addEventListener('mouseenter', () => {
+        chatBtn.style.transform = 'translateY(-2px)';
+        chatBtn.style.boxShadow = '0 6px 20px rgba(0,0,0,0.4)';
+      });
+
+      chatBtn.addEventListener('mouseleave', () => {
+        chatBtn.style.transform = 'translateY(0)';
+        chatBtn.style.boxShadow = '0 4px 16px rgba(0,0,0,0.3)';
+      });
+
+      chatBtn.addEventListener('click', handleChatClick);
+      document.body.appendChild(chatBtn);
+    }
+
     return () => {
-      // Cleanup script on unmount
+      // Cleanup on unmount
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }
+      const chatBtn = document.getElementById('saintsal-btn');
+      if (chatBtn) {
+        document.body.removeChild(chatBtn);
+      }
+      const chatFrame = document.getElementById('saintsal-chat');
+      if (chatFrame) {
+        document.body.removeChild(chatFrame);
+      }
     };
-  }, []);
+  }, [showChatButton]);
 
   return (
     <div className="calendar-booking-container w-full">
@@ -62,28 +130,21 @@ export default function CalendarBooking({
         </Card>
       )}
 
-      <Card className="bg-slate-800/80 border-yellow-500/50 backdrop-blur-xl overflow-hidden">
-        <CardContent className="p-0">
-          <div
-            className="w-full relative"
-            style={{ minHeight: height }}
-          >
-            <iframe
-              src="https://api.leadconnectorhq.com/widget/booking/djw1Jq6ZMdKsV60MFIuM"
-              style={{
-                width: '100%',
-                height: height,
-                border: 'none',
-                overflow: 'hidden',
-                borderRadius: '0 0 12px 12px'
-              }}
-              scrolling="no"
-              id="VVGtUwspSIqM9SovtBAn_1761957286154"
-              title="SaintSal Calendar Booking"
-            />
-          </div>
-        </CardContent>
-      </Card>
+      <div style={{ maxWidth: '950px', margin: '0 auto', position: 'relative' }}>
+        <iframe
+          src="https://api.leadconnectorhq.com/widget/booking/djw1Jq6ZMdKsV60MFIuM"
+          style={{
+            width: '100%',
+            border: 'none',
+            overflow: 'hidden',
+            height: height,
+            borderRadius: '16px',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.2)'
+          }}
+          scrolling="no"
+          title="SaintSal Calendar Booking"
+        />
+      </div>
 
       <style jsx>{`
         .calendar-booking-container {
@@ -93,6 +154,7 @@ export default function CalendarBooking({
         @media (max-width: 768px) {
           .calendar-booking-container iframe {
             min-height: 600px;
+            border-radius: 12px;
           }
         }
       `}</style>
