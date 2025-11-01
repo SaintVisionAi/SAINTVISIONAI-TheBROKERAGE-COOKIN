@@ -62,6 +62,11 @@ export default function GHLContactForm({
 
       if (onSuccess) {
         setTimeout(() => onSuccess(), 2000);
+      } else {
+        // Default: redirect to booking page after 2 seconds
+        setTimeout(() => {
+          window.location.href = '/client-hub/book';
+        }, 2000);
       }
     } catch (err: any) {
       setError(err.message || 'Something went wrong. Please try again.');
@@ -74,7 +79,7 @@ export default function GHLContactForm({
         <CheckCircle className="success-icon" size={64} />
         <h3>Thank You!</h3>
         <p>We've received your information and will be in touch shortly.</p>
-        <p className="success-note">Check your email for next steps.</p>
+        <p className="success-note">📅 Redirecting you to schedule your consultation...</p>
       </div>
     );
   }
