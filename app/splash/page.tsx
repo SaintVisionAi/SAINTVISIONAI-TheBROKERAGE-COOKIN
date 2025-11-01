@@ -1,0 +1,127 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+
+export default function SplashPage() {
+  const router = useRouter()
+  const [isReady, setIsReady] = useState(false)
+
+  useEffect(() => {
+    // Check if user is already authenticated
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/auth/check');
+        const data = await response.json();
+
+        if (data.authenticated) {
+          // User is logged in, redirect to chat
+          router.push('/');
+          return;
+        }
+      } catch (err) {
+        console.log('Not authenticated');
+      }
+    };
+
+    checkAuth();
+    setTimeout(() => setIsReady(true), 500)
+  }, [router])
+
+  return (
+    <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
+      {/* No Background - Clean Black */}
+
+      {/* Main Content */}
+      <div className={`relative z-10 text-center transition-all duration-1000 ${isReady ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+        {/* HACP Badge */}
+        <div className="mb-12">
+          <div className="inline-flex items-center space-x-2 px-3 py-1">
+            <div className="w-2 h-2 bg-yellow-500/50 rounded-full animate-pulse" />
+            <span className="text-xs tracking-[0.3em] text-gray-500 font-light">HACP™ PROTOCOL ACTIVE</span>
+            <div className="w-2 h-2 bg-yellow-500/50 rounded-full animate-pulse" />
+          </div>
+        </div>
+
+        {/* Main Logo */}
+        <div className="mb-8">
+          <Image
+            src="/logos/THE BEST MAIN LOGO + COOKIN.png"
+            alt="SAINTVISIONAI"
+            width={350}
+            height={200}
+            className="mx-auto object-contain"
+            priority
+          />
+        </div>
+
+        {/* Title */}
+        <h1 className="mb-4">
+          <div className="text-6xl md:text-7xl font-thin tracking-wider">
+            <span className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">
+              SAINT
+            </span>
+            <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 bg-clip-text text-transparent">
+              VISION
+            </span>
+          </div>
+          <div className="text-xl md:text-2xl font-thin tracking-[0.5em] mt-4 text-gray-500">
+            RESPONSIBLE INTELLIGENCE
+          </div>
+        </h1>
+
+        {/* Voice Intelligence Feature - SAINTVISION BRANDED */}
+        <div className="mb-8 mt-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-yellow-500/30 bg-yellow-500/10">
+            <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
+            <span className="text-xs tracking-wider text-yellow-400 font-medium">ADVANCED VOICE INTELLIGENCE</span>
+            <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
+          </div>
+          <p className="text-sm text-gray-400 mt-3">Voice-to-Voice AI • Real-time Conversations • Natural Speech</p>
+        </div>
+
+        {/* Buttons */}
+        <div className="mt-20 space-y-6">
+          {/* Client Hub - Primary CTA */}
+          <button
+            onClick={() => router.push('/client-hub')}
+            className="group relative inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-black font-semibold rounded-full hover:shadow-xl hover:shadow-yellow-500/50 transition-all hover:scale-105"
+          >
+            <span className="text-sm tracking-wider">
+              CLIENT HUB
+            </span>
+            <svg className="w-4 h-4 ml-2 transition-all group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* AI Platform Enter */}
+          <div>
+            <button
+              onClick={() => router.push('/auth/signup')}
+              className="group relative inline-flex items-center"
+            >
+              <span className="text-gray-600 text-sm tracking-wider transition-colors group-hover:text-yellow-500">
+                AI PLATFORM ENTER
+              </span>
+              <svg className="w-4 h-4 ml-2 text-gray-600 group-hover:text-yellow-500 transition-all group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Sign In Link */}
+        <div className="mt-8">
+          <button
+            onClick={() => router.push('/auth/login')}
+            className="text-gray-700 text-xs tracking-wider hover:text-gray-500 transition-colors"
+          >
+            Already have an account? <span className="text-yellow-600 hover:text-yellow-500">Sign In</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
